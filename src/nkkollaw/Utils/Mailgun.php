@@ -14,10 +14,13 @@ class Mailgun {
         if (!$response) {
             throw new \Exception('did NOT get API content');
         }
+
         $response_json = json_decode($response->getBody(), false);
         if (!$response_json) {
             throw new \Exception('unable to parse JSON');
         }
+
+        return $response_json;
     }
 
     public static function setBaseUrl($url) {
@@ -60,6 +63,7 @@ class Mailgun {
             $events = array_merge($events, $response_json->items);
         }
 
+        return $events;
     }
 
     // get all bounces taking care of pagination
