@@ -11,7 +11,9 @@
             "email": "me@nbrogi.com"
         }
     ],
-    "require": {},
+    "require": {
+        "guzzlehttp/guzzle": "^6"
+    },
     "autoload": {
         "psr-4": {
             "" : "src/"
