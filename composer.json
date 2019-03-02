@@ -3,7 +3,7 @@
 {
   "name": "nkkollaw/mailgun-utils",
   "description": "Utils for working with MailGun",
-	"version": "0.1.1",
+	"version": "0.1.2",
     "license": "MIT",
     "authors": [
         {
