@@ -2,9 +2,33 @@
 namespace nkkollaw\Utils;
 
 class Mailgun {
+    private $_BASE_URL = '';
+    private $_API_KEY = '';
+
+    public static function setBaseUrl($url) {
+        self::$_BASE_URL = $url;
+    }
+    public static function getBaseUrl() {
+        return self::$_BASE_URL;
+    }
+
+    public static function setApiKey($key) {
+        self::$_API_KEY = $key;
+    }
+    public static function getApiKey() {
+        return self::$_API_KEY;
+    }
+
     // get all events taking care of pagination
     public static function getEvents()
     {
+        if (!self::getBaseUrl()) {
+            throw new \Exception('must set base URL');
+        }
+        if (!self::getApiKey()) {
+            throw new \Exception('must set API key');
+        }
+
         // pagination is not handled in class, so call "manually"
         $endpoint = MAILGUN_API_URL . '/events';
 
