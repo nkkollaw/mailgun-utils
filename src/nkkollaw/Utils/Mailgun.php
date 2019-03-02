@@ -3,7 +3,7 @@ namespace nkkollaw\Utils;
 
 class Mailgun {
     // get all events taking care of pagination
-    public function getEvents()
+    public static function getEvents()
     {
         // pagination is not handled in class, so call "manually"
         $endpoint = MAILGUN_API_URL . '/events';
@@ -42,7 +42,7 @@ class Mailgun {
     }
 
     // get all bounces taking care of pagination
-    public function getBounces() {
+    public static function getBounces() {
         throw new \Exception('not implemented');
     }
 }
