@@ -5,6 +5,21 @@ class Mailgun {
     static private $_BASE_URL = '';
     static private $_API_KEY = '';
 
+    private static function get($endpoint) {
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->request('GET', $endpoint, [
+            'auth' => ['api', self::getApiKey()]
+        ]);
+        if (!$response) {
+            throw new \Exception('did NOT get API content');
+        }
+        $response_json = json_decode($response->getBody(), false);
+        if (!$response_json) {
+            throw new \Exception('unable to parse JSON');
+        }
+    }
+
     public static function setBaseUrl($url) {
         self::$_BASE_URL = $url;
     }
@@ -30,18 +45,9 @@ class Mailgun {
         }
 
         // pagination is not handled in class, so call "manually"
-        $endpoint = MAILGUN_API_URL . '/events';
+        $endpoint = self::getBaseUrl() . '/events';
 
-        $response = $client->request('GET', $endpoint, [
-            'auth' => ['api', MAILGUN_API_KEY]
-        ]);
-        if (!$response) {
-            throw new \Exception('did NOT get API content');
-        }
-        $response_json = json_decode($response->getBody(), false);
-        if (!$response_json) {
-            throw new \Exception('unable to parse JSON');
-        }
+        $response_json = self::get($endpoint);
 
         $events = $response_json->items;
 
@@ -49,16 +55,7 @@ class Mailgun {
         while (count($response_json->items) > 0) {
             $endpoint = $response_json->paging->next;
 
-            $response = $client->request('GET', $endpoint, [
-                'auth' => ['api', MAILGUN_API_KEY]
-            ]);
-            if (!$response) {
-                throw new \Exception('did NOT get API content');
-            }
-            $response_json = json_decode($response->getBody(), false);
-            if (!$response_json) {
-                throw new \Exception('unable to parse JSON');
-            }
+            $response_json = self::get($endpoint);
 
             $events = array_merge($events, $response_json->items);
         }
