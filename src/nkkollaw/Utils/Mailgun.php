@@ -2,8 +2,8 @@
 namespace nkkollaw\Utils;
 
 class Mailgun {
-    private $_BASE_URL = '';
-    private $_API_KEY = '';
+    static private $_BASE_URL = '';
+    static private $_API_KEY = '';
 
     public static function setBaseUrl($url) {
         self::$_BASE_URL = $url;
